@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumen - Aprenda a Bíblia com Simplicidade</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 700: '#1c2e54', 800: '#121f3d', 900: '#0a1128' },
+                        gold: { 400: '#d4af37', 500: '#c5a059', 600: '#b08d4a' },
+                        ivory: { 100: '#fdfbf7', 200: '#f5f2ed', 300: '#e8e4db' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS for Animations -->
+    <style>
+        body {
+            background-color: #fdfbf7; /* ivory-100 */
+            color: #0a1128; /* navy-900 */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Spinner Animation */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-custom {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="font-sans selection:bg-gold-400/30 selection:text-navy-900">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-6">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="book-open" class="w-6 h-6 text-gold-400"></i>
+                <span class="font-serif text-xl font-semibold tracking-wide text-white">Lumen</span>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#sobre" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors uppercase tracking-widest">Sobre</a>
+                <a href="#temas" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors uppercase tracking-widest">Temas</a>
+                <a href="#professor" class="text-sm font-medium text-white/80 hover:text-gold-400 transition-colors uppercase tracking-widest">Professor</a>
+                <a href="#inscrever" class="px-6 py-2 border border-gold-400/50 text-gold-400 hover:bg-gold-400 hover:text-navy-900 transition-all duration-300 rounded-full text-sm font-medium uppercase tracking-widest">Participar</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-navy-900 border-t border-white/10 py-4 px-6 flex flex-col gap-4 shadow-xl">
+            <a href="#sobre" class="mobile-link text-white/80 hover:text-gold-400 py-2">Sobre</a>
+            <a href="#temas" class="mobile-link text-white/80 hover:text-gold-400 py-2">Temas</a>
+            <a href="#professor" class="mobile-link text-white/80 hover:text-gold-400 py-2">Professor</a>
+            <a href="#inscrever" class="mobile-link text-gold-400 py-2 font-medium">Participar Agora</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy-900">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=2574&auto=format&fit=crop" alt="Bíblia aberta" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-b from-navy-900/80 via-navy-900/60 to-navy-900"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center mt-20 reveal active">
+            <span class="inline-block py-1 px-3 rounded-full border border-gold-400/30 text-gold-400 text-xs font-semibold tracking-[0.2em] uppercase mb-6">
+                Encontros Semanais Ao Vivo
+            </span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl text-white leading-[1.1] mb-6 font-light font-serif">
+                Aprenda a Bíblia com <br class="hidden md:block" />
+                <span class="italic text-gold-400">Simplicidade</span>
+            </h1>
+            <p class="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                Um espaço acolhedor para cristãos leigos que desejam compreender as Escrituras, fortalecer a fé e aplicar os ensinamentos no dia a dia. Sem jargões teológicos complexos.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#inscrever" class="w-full sm:w-auto px-8 py-4 bg-gold-500 hover:bg-gold-400 text-navy-900 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2">
+                    Garantir Minha Vaga <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#sobre" class="w-full sm:w-auto px-8 py-4 border border-white/20 hover:border-white/50 text-white rounded-full font-medium tracking-wide transition-all duration-300">
+                    Conhecer o Projeto
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="py-24 md:py-32 bg-ivory-100">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-left">
+                    <h2 class="text-4xl md:text-5xl font-serif text-navy-900 mb-6 leading-tight">
+                        A teologia não precisa ser <span class="italic text-gold-500">complicada.</span>
+                    </h2>
+                    <div class="w-16 h-[1px] bg-gold-400 mb-8"></div>
+                    <p class="text-navy-800/70 text-lg leading-relaxed mb-6">
+                        Muitos cristãos sentem dificuldade em ler e entender a Bíblia sozinhos. O projeto Lumen nasceu para ser uma ponte entre a profundidade das Escrituras e a simplicidade da vida cotidiana.
+                    </p>
+                    <p class="text-navy-800/70 text-lg leading-relaxed mb-8">
+                        Nossos encontros semanais são desenhados para pessoas comuns. Não exigimos conhecimento prévio, apenas um coração disposto a aprender e crescer na fé.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-gold-500 shrink-0"></i>
+                            <span class="text-sm font-medium text-navy-900">100% Online e Ao Vivo</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-gold-500 shrink-0"></i>
+                            <span class="text-sm font-medium text-navy-900">Linguagem Acessível</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-gold-500 shrink-0"></i>
+                            <span class="text-sm font-medium text-navy-900">Aplicação Prática</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-gold-500 shrink-0"></i>
+                            <span class="text-sm font-medium text-navy-900">Comunidade Acolhedora</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal-scale">
+                    <div class="aspect-[4/5] rounded-2xl overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=2070&auto=format&fit=crop" alt="Grupo estudando" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 border border-black/10 rounded-2xl"></div>
+                    </div>
+                    <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-ivory-200 rounded-full -z-10"></div>
+                    <div class="absolute -top-8 -right-8 w-32 h-32 border border-gold-400/30 rounded-full -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Class Section -->
+    <section class="py-20 bg-ivory-200 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            <div class="reveal bg-white rounded-[2rem] p-8 md:p-16 shadow-[0_20px_40px_rgba(10,17,40,0.05)] border border-ivory-300 flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="flex-1 text-center md:text-left">
+                    <span class="text-gold-500 text-sm font-bold tracking-widest uppercase mb-4 block">Próxima Aula Ao Vivo</span>
+                    <h3 class="text-3xl md:text-4xl font-serif text-navy-900 mb-4">O Sermão do Monte: Vivendo o Reino Hoje</h3>
+                    <p class="text-navy-800/70 mb-6 leading-relaxed">
+                        Vamos explorar os ensinamentos mais famosos de Jesus e descobrir como aplicá-los em nossos relacionamentos, trabalho e vida interior.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center gap-6 text-sm font-medium text-navy-900/80 justify-center md:justify-start">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-5 h-5 text-gold-500"></i>
+                            <span>Domingo</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-5 h-5 text-gold-500"></i>
+                            <span>19:00 (Horário de Brasília)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex-shrink-0 w-full md:w-auto">
+                    <div class="flex gap-4 md:gap-6 justify-center">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-navy-900 border border-gold-400/20 rounded-xl flex items-center justify-center mb-2 shadow-inner">
+                                <span id="cd-days" class="text-2xl md:text-3xl font-serif text-gold-400">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs uppercase tracking-widest text-navy-900/60 font-semibold">Dias</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-navy-900 border border-gold-400/20 rounded-xl flex items-center justify-center mb-2 shadow-inner">
+                                <span id="cd-hours" class="text-2xl md:text-3xl font-serif text-gold-400">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs uppercase tracking-widest text-navy-900/60 font-semibold">Horas</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-navy-900 border border-gold-400/20 rounded-xl flex items-center justify-center mb-2 shadow-inner">
+                                <span id="cd-minutes" class="text-2xl md:text-3xl font-serif text-gold-400">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs uppercase tracking-widest text-navy-900/60 font-semibold">Minutos</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-navy-900 border border-gold-400/20 rounded-xl flex items-center justify-center mb-2 shadow-inner">
+                                <span id="cd-seconds" class="text-2xl md:text-3xl font-serif text-gold-400">00</span>
+                            </div>
+                            <span class="text-[10px] md:text-xs uppercase tracking-widest text-navy-900/60 font-semibold">Segundos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Themes Section -->
+    <section id="temas" class="py-24 md:py-32 bg-navy-900 text-white">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-serif mb-6">O que vamos aprender?</h2>
+                <div class="w-16 h-[1px] bg-gold-400 mx-auto mb-6"></div>
+                <p class="text-white/70 text-lg font-light">
+                    Nossos temas são escolhidos pensando nas necessidades reais do cristão moderno. Trazemos a sabedoria milenar da Bíblia para os desafios de hoje.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Theme 1 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Como entender a Bíblia</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">Ferramentas simples para ler, interpretar e extrair lições valiosas das Escrituras sem se perder.</p>
+                </div>
+                <!-- Theme 2 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="heart" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Como orar</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">Desenvolvendo uma vida de oração sincera e constante, baseada nos modelos bíblicos.</p>
+                </div>
+                <!-- Theme 3 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="shield" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Fortalecendo a fé</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">Fundamentos sólidos para manter a confiança em Deus mesmo diante das adversidades.</p>
+                </div>
+                <!-- Theme 4 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Enfrentando momentos difíceis</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">O que a Bíblia diz sobre sofrimento, ansiedade e como encontrar esperança em Cristo.</p>
+                </div>
+                <!-- Theme 5 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300" style="transition-delay: 400ms;">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="sun" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">O Evangelho no dia a dia</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">Como viver os valores do Reino no trabalho, na família e na sociedade atual.</p>
+                </div>
+                <!-- Theme 6 -->
+                <div class="reveal group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all duration-300" style="transition-delay: 500ms;">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-400 mb-6 group-hover:scale-110 group-hover:bg-gold-500 group-hover:text-navy-900 transition-all duration-300">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-serif mb-3">Vencendo dúvidas espirituais</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">Um espaço seguro para fazer perguntas difíceis e encontrar respostas fundamentadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differentials -->
+    <section class="py-24 bg-ivory-100">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="reveal text-center md:text-left">
+                    <div class="text-gold-400 font-serif text-4xl mb-4 opacity-50">01</div>
+                    <h4 class="text-lg font-bold text-navy-900 mb-2">Ensino Claro</h4>
+                    <p class="text-sm text-navy-800/70 leading-relaxed">Sem palavras difíceis. Traduzimos conceitos profundos para a linguagem do dia a dia.</p>
+                </div>
+                <div class="reveal text-center md:text-left" style="transition-delay: 100ms;">
+                    <div class="text-gold-400 font-serif text-4xl mb-4 opacity-50">02</div>
+                    <h4 class="text-lg font-bold text-navy-900 mb-2">Aplicação Prática</h4>
+                    <p class="text-sm text-navy-800/70 leading-relaxed">Toda aula termina com um 'como fazer', conectando a teoria à sua rotina.</p>
+                </div>
+                <div class="reveal text-center md:text-left" style="transition-delay: 200ms;">
+                    <div class="text-gold-400 font-serif text-4xl mb-4 opacity-50">03</div>
+                    <h4 class="text-lg font-bold text-navy-900 mb-2">Ambiente Seguro</h4>
+                    <p class="text-sm text-navy-800/70 leading-relaxed">Nenhuma pergunta é boba. Criamos um espaço onde dúvidas são bem-vindas.</p>
+                </div>
+                <div class="reveal text-center md:text-left" style="transition-delay: 300ms;">
+                    <div class="text-gold-400 font-serif text-4xl mb-4 opacity-50">04</div>
+                    <h4 class="text-lg font-bold text-navy-900 mb-2">Crescimento Real</h4>
+                    <p class="text-sm text-navy-800/70 leading-relaxed">Foco em transformação de vida, não apenas em acúmulo de informação.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teacher Section -->
+    <section id="professor" class="py-24 md:py-32 bg-ivory-200">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
+            <div class="reveal bg-white rounded-[2rem] overflow-hidden shadow-xl flex flex-col md:flex-row">
+                <div class="md:w-2/5 relative min-h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1287&auto=format&fit=crop" alt="Professor" class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <div class="md:w-3/5 p-10 md:p-16 flex flex-col justify-center">
+                    <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">Quem vai te guiar</span>
+                    <h2 class="text-3xl md:text-4xl font-serif text-navy-900 mb-2">Pr. Marcos Silva</h2>
+                    <p class="text-navy-900/50 text-sm mb-8 font-medium">Pastor, Professor e Escritor</p>
+                    
+                    <p class="text-navy-800/80 leading-relaxed mb-6">
+                        Com mais de 15 anos de experiência ministerial, Marcos tem uma paixão singular: tornar as Escrituras acessíveis a todos. Formado em Teologia e Letras, ele acredita que a profundidade bíblica não deve ser exclusividade dos acadêmicos.
+                    </p>
+                    <p class="text-navy-800/80 leading-relaxed">
+                        "Meu objetivo não é formar teólogos de biblioteca, mas discípulos que amam a Palavra e a vivem intensamente em suas casas, trabalhos e comunidades."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="inscrever" class="py-32 bg-navy-900 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full opacity-10 pointer-events-none">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#c5a059_0%,transparent_70%)] blur-3xl"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center reveal">
+            <h2 class="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">
+                Sua jornada pela Bíblia <br />
+                <span class="italic text-gold-400">começa aqui.</span>
+            </h2>
+            <p class="text-lg text-white/70 mb-12 max-w-2xl mx-auto font-light">
+                Junte-se a centenas de pessoas que estão descobrindo a beleza das Escrituras de forma simples e profunda. Inscreva-se gratuitamente para receber o link das aulas.
+            </p>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="cta-success" class="hidden bg-white/10 border border-gold-400/30 rounded-2xl p-8 max-w-md mx-auto backdrop-blur-sm reveal-scale">
+                <i data-lucide="check-circle-2" class="w-12 h-12 text-gold-400 mx-auto mb-4"></i>
+                <h3 class="text-xl text-white font-serif mb-2">Inscrição Confirmada!</h3>
+                <p class="text-white/70 text-sm">
+                    Verifique seu e-mail. Enviamos os detalhes de acesso para a nossa próxima aula.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form id="cta-form" class="max-w-md mx-auto relative">
+                <input type="email" required placeholder="Seu melhor e-mail" class="w-full bg-white/5 border border-white/20 rounded-full px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-gold-400 transition-colors disabled:opacity-50">
+                <button type="submit" id="cta-submit" class="absolute right-2 top-2 bottom-2 bg-gold-500 hover:bg-gold-400 text-navy-900 px-6 rounded-full font-medium transition-colors disabled:opacity-50 flex items-center justify-center min-w-[120px]">
+                    <span id="btn-text">Participar</span>
+                    <div id="btn-spinner" class="hidden w-5 h-5 border-2 border-navy-900 border-t-transparent rounded-full animate-spin-custom"></div>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-900 border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-6 h-6 text-gold-400"></i>
+                    <span class="font-serif text-2xl font-semibold tracking-wide text-white">Lumen</span>
+                </div>
+                
+                <div class="text-center md:text-right max-w-md">
+                    <p class="font-serif italic text-white/60 text-lg">
+                        "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."
+                    </p>
+                    <span class="text-gold-400/60 text-xs uppercase tracking-widest mt-2 block">Salmos 119:105</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 text-xs text-white/40 uppercase tracking-widest">
+                <p>&copy; <span id="current-year"></span> Projeto Lumen. Todos os direitos reservados.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-gold-400 transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-gold-400 transition-colors">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Set Current Year in Footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-navy-900/95', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                navbar.classList.remove('bg-transparent', 'py-6');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-6');
+                navbar.classList.remove('bg-navy-900/95', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date();
+            const nextSunday = new Date();
+            
+            // Calculate days until next Sunday
+            nextSunday.setDate(now.getDate() + (7 - now.getDay()) % 7);
+            
+            // If it's Sunday and past 19:00, set to next Sunday
+            if (now.getDay() === 0 && now.getHours() >= 19) {
+                nextSunday.setDate(nextSunday.getDate() + 7);
+            }
+            
+            // Set time to 19:00:00
+            nextSunday.setHours(19, 0, 0, 0);
+
+            const difference = nextSunday.getTime() - now.getTime();
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('cd-days').innerText = days.toString().padStart(2, '0');
+                document.getElementById('cd-hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('cd-minutes').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('cd-seconds').innerText = seconds.toString().padStart(2, '0');
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // Form Submission Simulation
+        const form = document.getElementById('cta-form');
+        const successMsg = document.getElementById('cta-success');
+        const submitBtn = document.getElementById('cta-submit');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Disable button and show spinner
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
+
+            // Simulate API request delay
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMsg.classList.remove('hidden');
+                successMsg.classList.add('active'); // Trigger animation
+            }, 1500);
+        });
+
+        // Scroll Reveal Animations (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
