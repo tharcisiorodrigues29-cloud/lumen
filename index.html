@@ -351,21 +351,27 @@
                 <span class="italic text-gold-400">começa aqui.</span>
             </h2>
             <p class="text-lg text-white/70 mb-12 max-w-2xl mx-auto font-light">
-                Junte-se a centenas de pessoas que estão descobrindo a beleza das Escrituras de forma simples e profunda. Inscreva-se gratuitamente para receber o link das aulas.
+                Insira seus dados abaixo para receber o link de acesso ao nosso grupo exclusivo do WhatsApp. É por lá que enviaremos os avisos das aulas.
             </p>
 
             <div id="cta-success" class="hidden bg-white/10 border border-gold-400/30 rounded-2xl p-8 max-w-md mx-auto backdrop-blur-sm reveal-scale">
                 <i data-lucide="check-circle-2" class="w-12 h-12 text-gold-400 mx-auto mb-4"></i>
-                <h3 class="text-xl text-white font-serif mb-2">Inscrição Confirmada!</h3>
-                <p class="text-white/70 text-sm">
-                    Verifique seu e-mail. Enviamos os detalhes de acesso para a nossa próxima aula.
+                <h3 class="text-2xl text-white font-serif mb-2">Quase lá!</h3>
+                <p class="text-white/70 text-sm mb-6">
+                    Você está sendo redirecionado para o nosso grupo do WhatsApp...
                 </p>
+                <a href="#" id="manual-whatsapp-link" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#1ebd5b] text-white rounded-full font-medium transition-colors text-sm w-full">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i> Entrar Manualmente
+                </a>
             </div>
 
-            <form id="cta-form" class="max-w-md mx-auto relative">
-                <input type="email" name="email" required placeholder="Seu melhor e-mail" class="w-full bg-white/5 border border-white/20 rounded-full px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-gold-400 transition-colors disabled:opacity-50">
-                <button type="submit" id="cta-submit" class="absolute right-2 top-2 bottom-2 bg-gold-500 hover:bg-gold-400 text-navy-900 px-6 rounded-full font-medium transition-colors disabled:opacity-50 flex items-center justify-center min-w-[120px]">
-                    <span id="btn-text">Participar</span>
+            <form id="cta-form" class="max-w-md mx-auto flex flex-col gap-4 relative">
+                <input type="text" name="nome" required placeholder="Seu primeiro nome" class="w-full bg-white/5 border border-white/20 rounded-xl px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-gold-400 transition-colors">
+                
+                <input type="tel" name="whatsapp" required placeholder="Seu WhatsApp (Ex: 11999999999)" class="w-full bg-white/5 border border-white/20 rounded-xl px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-gold-400 transition-colors">
+                
+                <button type="submit" id="cta-submit" class="w-full bg-gold-500 hover:bg-gold-400 text-navy-900 px-6 py-4 rounded-xl font-bold uppercase tracking-wide transition-colors disabled:opacity-50 flex items-center justify-center shadow-lg mt-2">
+                    <span id="btn-text">Receber Convite do Grupo</span>
                     <div id="btn-spinner" class="hidden w-5 h-5 border-2 border-navy-900 border-t-transparent rounded-full animate-spin-custom"></div>
                 </button>
             </form>
@@ -391,7 +397,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 text-xs text-white/40 uppercase tracking-widest">
                 <p>&copy; <span id="current-year"></span> Estudos Bíblicos Online. Todos os direitos reservados.</p>
                 <div class="flex gap-6">
-                    <a href="https://www.instagram.com/_tharcisiorodrigues?igsh=MWJsYW84amxhc3B2eA==" class="hover:text-gold-400 transition-colors">Instagram</a>
+                    <a href="https://www.instagram.com/_tharcisiorodrigues?igsh=MWJsYW84amxhc3B2eA==" target="_blank" class="hover:text-gold-400 transition-colors">Instagram</a>
                     <a href="#" class="hover:text-gold-400 transition-colors">YouTube</a>
                 </div>
             </div>
@@ -472,14 +478,17 @@
         setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call
 
-        // Form Submission REAL (Conectado via Formspree)
+        // Form Submission REAL (Conectado via Formspree + Redirecionamento WhatsApp)
         const form = document.getElementById('cta-form');
         const successMsg = document.getElementById('cta-success');
         const submitBtn = document.getElementById('cta-submit');
         const btnText = document.getElementById('btn-text');
         const btnSpinner = document.getElementById('btn-spinner');
 
-        // ======== ATENÇÃO: COLE SEU LINK DO FORMSPREE AQUI ========
+        // ======== ATENÇÃO: COLE O LINK DO SEU GRUPO AQUI ========
+        const linkWhatsApp = "https://chat.whatsapp.com/H4udAz51h95DE0CYZyyniz?mode=gi_t"; 
+        
+        // Link do Formspree (Mantive o que você já tinha gerado)
         const endpointFormspree = "https://formspree.io/f/xojpbnvv";
 
         form.addEventListener('submit', (e) => {
@@ -490,7 +499,7 @@
             btnText.classList.add('hidden');
             btnSpinner.classList.remove('hidden');
 
-            // Captura os dados do e-mail
+            // Captura os dados (Nome e WhatsApp)
             const formData = new FormData(form);
 
             // Envia os dados para o Formspree
@@ -503,12 +512,21 @@
             })
             .then(response => {
                 if (response.ok) {
-                    // Esconde o formulário e mostra a tela de sucesso bonitinha!
+                    // Prepara o link manual caso o redirecionamento automático falhe
+                    document.getElementById('manual-whatsapp-link').href = linkWhatsApp;
+
+                    // Esconde o formulário e mostra a tela de "Quase lá!"
                     form.classList.add('hidden');
                     successMsg.classList.remove('hidden');
                     successMsg.classList.add('active');
+
+                    // Redireciona automaticamente após 1 segundo e meio
+                    setTimeout(() => {
+                        window.location.href = linkWhatsApp;
+                    }, 1500);
+
                 } else {
-                    alert("Ops! Ocorreu um erro ao enviar. Verifique se colou o link corretamente.");
+                    alert("Ops! Ocorreu um erro ao enviar. Tente novamente.");
                     submitBtn.disabled = false;
                     btnText.classList.remove('hidden');
                     btnSpinner.classList.add('hidden');
@@ -522,7 +540,7 @@
             });
         });
 
-        // Scroll Reveal Animations (Intersection Observer)
+        // Scroll Reveal Animations
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -533,7 +551,7 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Only animate once
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
