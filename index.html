@@ -193,11 +193,11 @@
                     <div class="flex flex-col sm:flex-row items-center gap-6 text-sm font-medium text-navy-900/80 justify-center md:justify-start">
                         <div class="flex items-center gap-2">
                             <i data-lucide="calendar" class="w-5 h-5 text-gold-500"></i>
-                            <span>Domingo</span>
+                            <span>Segunda-feira</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <i data-lucide="clock" class="w-5 h-5 text-gold-500"></i>
-                            <span>19:00 (Horário de Brasília)</span>
+                            <span>20:00 (Horário de Brasília)</span>
                         </div>
                     </div>
                 </div>
@@ -438,23 +438,23 @@
         menuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-        // Countdown Timer Logic
+        // Countdown Timer Logic (Updated for Mondays at 20:00)
         function updateCountdown() {
             const now = new Date();
-            const nextSunday = new Date();
+            const nextMonday = new Date();
             
-            // Calculate days until next Sunday
-            nextSunday.setDate(now.getDate() + (7 - now.getDay()) % 7);
+            // Calculate days until next Monday (1 = Monday)
+            let daysUntilMonday = (1 + 7 - now.getDay()) % 7;
             
-            // If it's Sunday and past 19:00, set to next Sunday
-            if (now.getDay() === 0 && now.getHours() >= 19) {
-                nextSunday.setDate(nextSunday.getDate() + 7);
+            // If it's Monday and past 20:00, set to next Monday
+            if (daysUntilMonday === 0 && now.getHours() >= 20) {
+                daysUntilMonday = 7;
             }
             
-            // Set time to 19:00:00
-            nextSunday.setHours(19, 0, 0, 0);
+            nextMonday.setDate(now.getDate() + daysUntilMonday);
+            nextMonday.setHours(20, 0, 0, 0);
 
-            const difference = nextSunday.getTime() - now.getTime();
+            const difference = nextMonday.getTime() - now.getTime();
 
             if (difference > 0) {
                 const days = Math.floor(difference / (1000 * 60 * 60 * 24));
